@@ -1,21 +1,29 @@
-using CP2.IoC;
+using CP2.Application.Services;
+using CP2.Domain.Interfaces;
+using CP2.Data.AppData;
+using CP2.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Adicione o contexto do banco de dados
+builder.Services.AddDbContext<ApplicationContext>(options =>
+    options.UseOracle(builder.Configuration.GetConnectionString("OracleConnection")));
 
+// Registre as interfaces e suas implementações
+builder.Services.AddTransient<IFornecedorApplicationService, FornecedorApplicationService>();
+builder.Services.AddTransient<IFornecedorRepository, FornecedorRepository>();
+
+builder.Services.AddTransient<IVendedorApplicationService, VendedorApplicationService>();
+builder.Services.AddTransient<IVendedorRepository, VendedorRepository>();
+
+// Adicione outros serviços, como controllers e Swagger
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => {
-    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
-});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -23,7 +31,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

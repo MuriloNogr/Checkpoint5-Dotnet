@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CP2.Data\CP2.Data.csproj" />
     <ProjectReference Include="..\CP2.Domain\CP2.Domain.csproj" />
   </ItemGroup>
 

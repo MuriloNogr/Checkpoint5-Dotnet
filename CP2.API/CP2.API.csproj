@@ -19,7 +19,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\CP2.Application\CP2.Application.csproj" />
-		<ProjectReference Include="..\CP2.Domain\CP2.Domain.csproj" />
 		<ProjectReference Include="..\CP2.IoC\CP2.IoC.csproj" />
 	</ItemGroup>
 
